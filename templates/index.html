@@ -1,0 +1,58 @@
+<html>
+  <head>
+    <title>Prototyping</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+  </head>
+  <body>
+
+    <div id="container">
+    
+      <div class="pagetitle">
+        <h1>Assistant Bot Intent Predictor</h1>
+      </div>
+      <div>
+        <h4>Please enter a message which would approach an assistant bot with one of the following intents, and the ML system will try to predict the intent:</h4>
+        <ul>
+          <li>Add To Playlist</li>
+          <li>Book Restaurant</li>
+          <li>Get Weather</li>
+          <li>Play Music</li>
+          <li>Rate Book</li>
+          <li>Search Creative Work</li>
+          <li>Search Screening Event</li>          
+        </ul> 
+      </div>
+    
+      <div id="count">
+        <form id="process", method="post" action="{{ url_for('submitted_form') }}">
+
+          <!-- Enter text to process -->
+          <label for="input_text">Enter some text to process (max 500 characters):</label> <input type="text" name="input_text" size="110"><br />
+          <input type ="submit" name="action" value="Predict">
+        </form>
+      </div>
+      <br>
+      <h4>Performance measures from last model:</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Accuracy</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F1</th>
+          </tr>          
+        </thead>
+        <tbody>         
+            <tr>
+              <th>{{ 1 }}</th>
+              <th>{{ classifier.accuracy }}</th>
+              <th>{{ classifier.precision }}</th>
+              <th>{{ classifier.recall }}</th>
+              <th>{{ classifier.f1 }}</th>
+            </tr> 
+        </tbody>
+      </table>        
+    </div>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<html>
+ <head>
+    <title>Predicted category</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+ </head>
+ <body>
+   <div id="container">
+     <div class="pagetitle">
+       <h1>You submitted message to be predicted</h1>
+     </div>
+     <div id="main">
+       <p>Intent prediction:</p>
+        <strong>Input text</strong>: {{sentence}} <br>
+        <strong>Prediction</strong>: {{prediction}} <br>
+        <strong>Accuracy </strong>: {{acc}}%         (the predictor guesses the intents correctly at this rate based on a test set)<br>
+        <br>
+        <br>         
+        <strong>Please help to develop the predictor with your feedback. </strong> <br>
+        <strong>Which was the real intent? </strong> <br><br>
+         
+        <form id="send_feedback" onsubmit="please_wait()" method="post" action="{{ url_for('feedback_received') }}">
+          <input type="radio" name="feedback" value='0'>Add To Playlist<br>
+          <input type="radio" name="feedback" value='1'>Book Restaurant<br>
+          <input type="radio" name="feedback" value='2'>Get Weather<br>
+          <input type="radio" name="feedback" value='3'>Play Music<br>
+          <input type="radio" name="feedback" value='4'>Rate Book<br>
+          <input type="radio" name="feedback" value='5'>Search Creative Work<br>
+          <input type="radio" name="feedback" value='6'>Search Screening Event<br>          
+          <input type='hidden' name="sentence" value='{{sentence}}'><br>
+          <input id="s" type ="submit" name="action" value="Send Feedback"> <br>
+        </form>
+       </p>
+     </div>
+   </div>
+  <script>    
+    function getRadioVal(form, name) {
+      var val;      
+      var radios = form.elements[name];    
+      for (var i=0, len=radios.length; i<len; i++) {
+          if ( radios[i].checked ) { 
+              val = radios[i].value; 
+              break; 
+          }
+      }
+      return val; 
+    }
+
+
+    function please_wait(){
+      let feedback = getRadioVal(document.getElementById('send_feedback'), 'feedback')
+      console.log(feedback);
+      if(typeof feedback == 'undefined') {
+        event.preventDefault();
+        alert("Please select a feedback")
+      }
+      else{
+        alert('The ML model is retrained after every two submission, please wait until you are redirected');
+      }      
+    }
+  </script>
+ </body>
+</html>
